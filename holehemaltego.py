@@ -23,7 +23,7 @@ for website in websites:
             if "@" not in infos["others"]["FullName"]:
                 email = trx.addEntity("maltego.Person",infos["others"]["FullName"])
                 email.setLinkLabel("Found in "+i)
-            web.setIconURL(infos["others"]["profilePicture"].replace("&","&amp"))
+            web.setIconURL(infos["others"]["profilePicture"].replace("&","&amp;"))
             
             
 print(trx.returnOutput())
