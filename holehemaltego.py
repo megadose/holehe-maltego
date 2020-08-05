@@ -23,12 +23,7 @@ for website in websites:
             if "@" not in infos["others"]["FullName"]:
                 email = trx.addEntity("maltego.Person",infos["others"]["FullName"])
                 email.setLinkLabel("Found in "+i)
-            reandom =''.join(random.choice(string.ascii_lowercase) for i in range(30))
-            params = (
-                ('source', 'indexpage'),
-                ('url', infos["others"]["profilePicture"]),
-                ('alias', reandom),
-            )
-            response = requests.get('https://tinyurl.com/create.php', params=params)
-            web.setIconURL("https://tinyurl.com/"+reandom)
+            web.setIconURL(infos["others"]["profilePicture"].replace("&","&amp"))
+            
+            
 print(trx.returnOutput())
