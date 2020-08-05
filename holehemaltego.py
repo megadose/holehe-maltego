@@ -7,7 +7,7 @@ from holehe import *
 import random
 import string
 
-websites=[adobe,ebay,apple,facebook,instagram,tumblr,pastebin,github,twitter,pinterest,lastfm,spotify,firefox]
+websites=[adobe,ebay,facebook,instagram,tumblr,pastebin,github,twitter,pinterest,lastfm,spotify,firefox,office365,live]
 for website in websites:
     infos=website(emailT)
     i=str(website).split(" ")[1].split(" ")[0]
