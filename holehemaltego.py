@@ -1,29 +1,50 @@
 from MaltegoTransform import *
-import json,requests
-emailT=sys.argv[1]
-import os
-trx = MaltegoTransform()
+import trio
 from holehe import *
-import random
-import string
+from holehe.core import *
+async def maincore():
+    def get_timeout():
+        """Get Timeout from Gravatar.com"""
+        check_timeout = httpx.get("https://gravatar.com")
+        timeout_value = int(check_timeout.elapsed.total_seconds() * 6) + 5
+        return (timeout_value)
 
-websites=[adobe,amazon,ebay,evernote,facebook,firefox,github,instagram,lastfm,lastpass,live,office365,pinterest,spotify,tumblr,twitter]
-for website in websites:
-    infos=website(emailT)
-    i=str(website).split(" ")[1].split(" ")[0]
-    if infos["exists"]==True:
-        web = trx.addEntity("megadose."+i,"Found")
-        if infos["emailrecovery"]!= None:
-            email = trx.addEntity("maltego.EmailAddress",infos["emailrecovery"])
-            email.setLinkLabel("Found in "+i)
-        if infos["phoneNumber"]!= None:
-            email = trx.addEntity("maltego.PhoneNumber",infos["phoneNumber"])
-            email.setLinkLabel("Found in "+i)
-        if infos["others"]!= None:
-            if "@" not in infos["others"]["FullName"]:
-                email = trx.addEntity("maltego.Person",infos["others"]["FullName"])
-                email.setLinkLabel("Found in "+i)
-            web.setIconURL(infos["others"]["profilePicture"].replace("&","&amp;"))
-            
-            
-print(trx.returnOutput())
+    email=sys.argv[1]
+
+    # Import Modules
+    modules = import_submodules("holehe.modules")
+    websites = get_functions(modules)
+    # Get timeout
+    timeout=get_timeout()
+    # Def the async client
+    client = httpx.AsyncClient(timeout=timeout)
+    # Launching the modules
+    out = []
+    async with trio.open_nursery() as nursery:
+        for website in websites:
+            nursery.start_soon(launch_module, website, email, client, out)
+
+    # Sort by modules names
+    out = sorted(out, key=lambda i: i['name'])
+    # Close the client
+    await client.aclose()
+    for website in out:
+        if website["exists"]==True:
+            web = trx.addEntity("maltego.Website",website["domain"])
+            web.setNote("Found")
+            if website["emailrecovery"]!= None:
+                email = trx.addEntity("maltego.EmailAddress",website["emailrecovery"])
+                email.setLinkLabel("Found in "+website["domain"])
+            if website["phoneNumber"]!= None:
+                email = trx.addEntity("maltego.PhoneNumber",website["phoneNumber"])
+                email.setLinkLabel("Found in "+website["domain"])
+            if website["others"]!= None:
+                email = trx.addEntity("maltego.Phrase","Found from "+website["name"]+str(website["others"]))
+
+
+    print(trx.returnOutput())
+
+trx = MaltegoTransform()
+
+
+trio.run(maincore)
