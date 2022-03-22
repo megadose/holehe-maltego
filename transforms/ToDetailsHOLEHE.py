@@ -1,5 +1,5 @@
 from maltego_trx.maltego import MaltegoTransform, MaltegoMsg
-from maltego_trx.template_dir.extensions import registry
+from extensions import registry
 from maltego_trx.transform import DiscoverableTransform
 from holehe.core import *
 
