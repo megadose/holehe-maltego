@@ -5,6 +5,6 @@ Educational purposes only
 
 ## 🛠️ For the Installation check the [wiki](https://github.com/megadose/holehe-maltego/wiki/Installation)
 ## Example
-![](demo.gif)
+![](Misc/demo.gif)
 ## 📝 License
 [GNU General Public License v3.0](https://www.gnu.org/licenses/gpl-3.0.fr.html)
