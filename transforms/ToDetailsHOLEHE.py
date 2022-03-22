@@ -1,8 +1,6 @@
 from maltego_trx.maltego import MaltegoTransform, MaltegoMsg
 from maltego_trx.template_dir.extensions import registry
 from maltego_trx.transform import DiscoverableTransform
-import trio
-from holehe import *
 from holehe.core import *
 
 
@@ -10,7 +8,7 @@ from holehe.core import *
                              description='Returns accounts associated with an email address.',
                              settings=[],
                              output_entities=["maltego.Unknown"])
-class holehemaltegonew(DiscoverableTransform):
+class ToDetailsHOLEHE(DiscoverableTransform):
 
     @classmethod
     def create_entities(cls, request: MaltegoMsg, response: MaltegoTransform):
@@ -21,7 +19,7 @@ class holehemaltegonew(DiscoverableTransform):
                 """Get Timeout from Gravatar.com"""
                 check_timeout = httpx.get("https://gravatar.com")
                 timeout_value = int(check_timeout.elapsed.total_seconds() * 6) + 5
-                return (timeout_value)
+                return timeout_value
 
             email = request.Value
             # Import Modules
@@ -32,36 +30,31 @@ class holehemaltegonew(DiscoverableTransform):
             # Def the async client
             client = httpx.AsyncClient(timeout=timeout)
             # Launching the modules
-            out = []
+            results = []
             async with trio.open_nursery() as nursery:
                 for website in websites:
-                    nursery.start_soon(launch_module, website, email, client, out)
+                    nursery.start_soon(launch_module, website, email, client, results)
 
             # Sort by modules names
-            out = sorted(out, key=lambda i: i['name'])
+            out = sorted(results, key=lambda i: i['name'])
             # Close the client
             await client.aclose()
 
             for website in out:
 
-                if website["exists"] == True:
-
+                if website["exists"]:
                     web = response.addEntity("maltego.Website", website["domain"])
                     web.setNote("Found")
 
-                    if website["emailrecovery"] != None:
+                    if website["emailrecovery"] is not None:
                         email = response.addEntity("maltego.EmailAddress", website["emailrecovery"])
                         email.setLinkLabel("Found in " + website["domain"])
 
-                    if website["phoneNumber"] != None:
+                    if website["phoneNumber"] is not None:
                         email = response.addEntity("maltego.PhoneNumber", website["phoneNumber"])
                         email.setLinkLabel("Found in " + website["domain"])
 
-                    if website["others"] != None:
-                        response.addEntity("maltego.Phrase",
-                                              "Found from " + website["name"] + str(website["others"]))
+                    if website["others"] is not None:
+                        response.addEntity("maltego.Phrase", "Found from " + website["name"] + str(website["others"]))
 
         trio.run(maincore)
-
-
-

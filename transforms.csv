@@ -1,2 +1,2 @@
 Owner,Author,Disclaimer,Description,Version,Name,UIName,URL,entityName,oAuthSettingId,transformSettingIDs,seedIDs
-ACME Corporation,John Doe <johndoe@acme.com>,,Returns accounts associated with an email address.,0.1,holehemaltegonew,Email to Registered Accounts [HOLEHE],https://transforms.acme.com/run/holehemaltegonew,maltego.EmailAddress,,,demo
+ACME Corporation,John Doe <johndoe@acme.com>,,Returns accounts associated with an email address.,0.1,todetailsholehe,Email to Registered Accounts [HOLEHE],https://transforms.acme.com/run/todetailsholehe,maltego.EmailAddress,,,demo
