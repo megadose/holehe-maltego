@@ -1,6 +1,7 @@
 from maltego_trx.maltego import MaltegoTransform, MaltegoMsg
-from extensions import registry
 from maltego_trx.transform import DiscoverableTransform
+from maltego_trx.maltego import OverlayPosition, OverlayType
+from extensions import registry
 from holehe.core import *
 
 
@@ -44,7 +45,8 @@ class ToDetailsHOLEHE(DiscoverableTransform):
 
                 if website["exists"]:
                     web = response.addEntity("maltego.Website", website["domain"])
-                    web.setNote("Found")
+                    web.addProperty("account_found", "Account Found", "loose", True)
+                    web.addOverlay("#31bd2a", OverlayPosition.NORTH_WEST, OverlayType.COLOUR)
 
                     if website["emailrecovery"] is not None:
                         email = response.addEntity("maltego.EmailAddress", website["emailrecovery"])
