@@ -1,2 +1,2 @@
-Owner,Author,Disclaimer,Description,Version,Name,UIName,URL,entityName,oAuthSettingId,transformSettingIDs,seedIDs
-Megadose/Turroks,Megadose/Turroks,,Returns accounts associated with an email address.,0.1,todetailsholehe,Email to Registered Accounts [HOLEHE],https://transforms.mro.com/run/todetailsholehe,maltego.EmailAddress,,,holehe
+Owner,Author,Disclaimer,Description,Version,Name,UIName,URL,entityName,oAuthSettingId,transformSettingIDs,seedIDs,outputEntities
+Megadose/Mario Rojas (aka Turroks),Megadose/Mario Rojas (aka Turroks),,Returns accounts associated with an email address.,0.1,todetailsholehe,Email to Registered Accounts [HOLEHE],https://transforms.mro.com/run/todetailsholehe,maltego.EmailAddress,,,holehe,maltego.Unknown
