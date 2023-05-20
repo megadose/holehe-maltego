@@ -1,13 +1,15 @@
-from maltego_trx.decorator_registry import TransformRegistry
+from maltego_trx.decorator_registry import TransformRegistry, TransformSet
 
 registry = TransformRegistry(
-        owner="Mario Rojas",
-        author="Mario Rojas <mariro_ch@hotmail.com>",
+        owner="Megadose/Turroks",
+        author="Megadose/Turroks",
         host_url="https://transforms.mro.com",
         seed_ids=["holehe"]
 )
 
 # The rest of these attributes are optional
+
+holehe_set = TransformSet('HOLEHE', "Maltego HOLEHE Transforms")
 
 # metadata
 registry.version = "0.1"
