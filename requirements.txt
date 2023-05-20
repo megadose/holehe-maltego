@@ -1,3 +1,4 @@
 trio
 holehe
 maltego-trx
+python-dotenv
