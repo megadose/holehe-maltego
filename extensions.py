@@ -1,8 +1,8 @@
 from maltego_trx.decorator_registry import TransformRegistry, TransformSet
 
 registry = TransformRegistry(
-        owner="Megadose/Turroks",
-        author="Megadose/Turroks",
+        owner="Megadose/Mario Rojas (aka Turroks)",
+        author="Megadose/Mario Rojas (aka Turroks)",
         host_url="https://transforms.mro.com",
         seed_ids=["holehe"]
 )
