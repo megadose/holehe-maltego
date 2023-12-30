@@ -1,14 +1,18 @@
 from maltego_trx.maltego import MaltegoTransform, MaltegoMsg
 from maltego_trx.transform import DiscoverableTransform
 from maltego_trx.maltego import OverlayPosition, OverlayType
-from extensions import registry
+from extensions import registry, holehe_set
 from holehe.core import *
+from dotenv import load_dotenv
 
+# Load Environment Variables
+load_dotenv()
 
 @registry.register_transform(display_name="Email to Registered Accounts [HOLEHE]", input_entity="maltego.EmailAddress",
                              description='Returns accounts associated with an email address.',
                              settings=[],
-                             output_entities=["maltego.Unknown"])
+                             output_entities=["maltego.Unknown"],
+                             transform_set=holehe_set)
 class ToDetailsHOLEHE(DiscoverableTransform):
 
     @classmethod
